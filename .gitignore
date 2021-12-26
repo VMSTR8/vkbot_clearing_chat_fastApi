@@ -1,0 +1,10 @@
+# Thrash
+**/__pycache__/
+**/.DS_Store
+.idea/
+
+# venv
+venv/
+
+# env var
+.env
