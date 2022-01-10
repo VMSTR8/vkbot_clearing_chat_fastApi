@@ -2,22 +2,22 @@ import random
 
 import vk
 
-from settings import OPEN_GROUP_TOKEN, CLOSED_GROUP_TOKEN
+from settings import OPEN_GROUP_TOKEN, CLOSED_GROUP_TOKEN, SERVICE_TOKEN
 
 session = vk.Session()
 api = vk.API(session, v='5.131')
 
 
-async def send_message(chat_id: int, message: str, attachment=''):
+async def send_message(peer_id: int, message: str, attachment=''):
     """
     Отправляет сообщение
-    :param chat_id: Передаете сюда peer_id
+    :param peer_id: Передаете сюда peer_id
     :param message: Передаете сообщение, которое нужно отправить (Не больше 4096 символов)
     :param attachment: Передаете ссылку на файл, который нужно отправить в формате <type><owner_id>_<media_id>
     :return: Отправляет сообщение
     """
     api.messages.send(access_token=OPEN_GROUP_TOKEN,
-                      chat_id=chat_id - 2000000000,
+                      peer_id=peer_id,
                       message=message,
                       attachment=attachment,
                       random_id=random.getrandbits(64),
@@ -56,3 +56,9 @@ async def get_conversation_members(peer_id: int) -> dict:
     """
     return api.messages.getConversationMembers(access_token=OPEN_GROUP_TOKEN,
                                                peer_id=peer_id)
+
+
+async def users_get(user_ids):
+    return api.users.get(access_token=SERVICE_TOKEN,
+                         user_ids=user_ids,
+                         name_case='nom')
